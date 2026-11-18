@@ -1,0 +1,42 @@
+id = "bbmon"
+name = "BitBake Monitor"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "Tracks running BitBake builds per pane: progress, phase, and whether an AI agent launched them."
+platforms = ["linux"]
+
+# Startup hooks are one-shot; this one spawns (or re-uses) a detached watcher.
+[[startup]]
+command = ["python3", "bbmon.py", "ensure-daemon"]
+
+[[actions]]
+id = "list"
+title = "BitBake: show running builds"
+contexts = ["global"]
+command = ["python3", "bbmon.py", "open-list"]
+
+[[actions]]
+id = "start"
+title = "BitBake: start monitor"
+contexts = ["global"]
+command = ["python3", "bbmon.py", "ensure-daemon"]
+
+[[actions]]
+id = "stop"
+title = "BitBake: stop monitor"
+contexts = ["global"]
+command = ["python3", "bbmon.py", "stop"]
+
+[[actions]]
+id = "setup-sidebar"
+title = "BitBake: add $bb row to the Agents sidebar"
+contexts = ["global"]
+command = ["python3", "bbmon.py", "setup-sidebar"]
+
+[[panes]]
+id = "list"
+title = "BitBake builds"
+placement = "popup"
+width = "90%"
+height = "60%"
+command = ["python3", "bbmon.py", "list-tui"]
